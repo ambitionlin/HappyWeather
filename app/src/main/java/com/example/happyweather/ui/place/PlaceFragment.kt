@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.happyweather.databinding.FragmentPlaceBinding
 
 class PlaceFragment : Fragment() {
-    val viewModel by lazy { ViewModelProviders.of(this).get(PlaceViewHolder::class.java) }
+    val viewModel by lazy { ViewModelProviders.of(this).get(PlaceViewModel::class.java) }
 
     private lateinit var adapter: PlaceAdapter
 

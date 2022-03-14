@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.happyweather.logic.Repository
 import com.example.happyweather.logic.model.PlaceResponse
 
-class PlaceViewHolder:ViewModel() {
+class PlaceViewModel:ViewModel() {
     private val searchLiveData = MutableLiveData<String>()
     //placeList用于对界面展示的城市数据进行缓存，原则上与界面相关的数据都应该放到ViewModel中，可保证手机屏幕旋转时，数据不丢失
     val placeList = ArrayList<PlaceResponse.Place>()
