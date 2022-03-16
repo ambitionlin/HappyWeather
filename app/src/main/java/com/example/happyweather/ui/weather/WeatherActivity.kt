@@ -34,14 +34,9 @@ class WeatherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val decorView = window.decorView  //拿到当前Activity的DecorView
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window, decorView).let { controller ->
-            controller.hide(WindowInsetsCompat.Type.systemBars())
-            controller.systemBarsBehavior =
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
         //改变系统UI的显示，以下设置将Activity的布局会显示在状态栏上面
-//        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//        window.statusBarColor = Color.TRANSPARENT    //将状态栏设置成透明色
+        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        window.statusBarColor = Color.TRANSPARENT    //将状态栏设置成透明色
         binding = ActivityWeatherBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //从Intent中取出经纬度坐标和地区名称，并赋值到WeatherViewModel的相应变量中
