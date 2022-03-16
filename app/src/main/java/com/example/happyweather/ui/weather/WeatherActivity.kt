@@ -1,20 +1,26 @@
 package com.example.happyweather.ui.weather
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.happyweather.R
 import com.example.happyweather.databinding.ActivityWeatherBinding
+import com.example.happyweather.logic.Repository.refreshWeather
 import com.example.happyweather.logic.model.Weather
 import com.example.happyweather.logic.model.getSky
 import com.example.happyweather.ui.place.WeatherViewModel
@@ -23,7 +29,7 @@ import java.util.*
 
 class WeatherActivity : AppCompatActivity() {
     val viewModel by lazy { ViewModelProvider(this).get(WeatherViewModel::class.java) }
-    private lateinit var binding: ActivityWeatherBinding
+    lateinit var binding: ActivityWeatherBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val decorView = window.decorView  //拿到当前Activity的DecorView
@@ -57,9 +63,41 @@ class WeatherActivity : AppCompatActivity() {
                 Toast.makeText(this, "无法成功获取天气信息", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
+            binding.swipeRefresh.isRefreshing = false
         })
+        binding.swipeRefresh.setColorSchemeResources(com.google.android.material.R.color.design_default_color_primary)
+        refreshWeather()
+        //设置下拉刷新的监听器
+        binding.swipeRefresh.setOnRefreshListener {
+            refreshWeather()
+        }
+
+        binding.now.navBtn.setOnClickListener{
+            binding.drawerLayout.openDrawer(GravityCompat.START)
+        }
+
+        binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener{
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+            }
+
+            override fun onDrawerOpened(drawerView: View) {
+            }
+            //菜单被隐藏时，隐藏输入法
+            override fun onDrawerClosed(drawerView: View) {
+                val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                manager.hideSoftInputFromWindow(drawerView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {
+            }
+
+        })
+    }
+
+    fun refreshWeather(){
         //向服务端请求当前位置的天气数据
         viewModel.refreshWeather(viewModel.locationLng, viewModel.locationLat)
+        binding.swipeRefresh.isRefreshing = true   //让下拉刷新进度条显示出来
     }
 
     //从Weather对象中获取数据，并显示在相应的控件上

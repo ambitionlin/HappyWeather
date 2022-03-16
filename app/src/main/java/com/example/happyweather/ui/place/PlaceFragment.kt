@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.happyweather.MainActivity
 import com.example.happyweather.databinding.FragmentPlaceBinding
 import com.example.happyweather.ui.weather.WeatherActivity
 
@@ -35,7 +36,7 @@ class PlaceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //如果已存储有城市数据，则获取存储数据并传递数据给WeatherActivity，不用重新搜索城市数据
-        if(viewModel.isPlaceSaved()){
+        if(activity is MainActivity && viewModel.isPlaceSaved()){
             val place = viewModel.getSavedPlace()
             val intent = Intent(context,WeatherActivity::class.java).apply{
                 putExtra("location_lng",place.location.lng)
