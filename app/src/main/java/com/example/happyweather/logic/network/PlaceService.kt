@@ -9,5 +9,5 @@ import retrofit2.http.Query
 //定义访问彩云天气城市搜索API的Retrofit接口
 interface PlaceService {
     @GET("v2/place?token=${HappyWeatherApplication.TOKEN}&lang=zh_CN")
-    fun searchPlaces(@Query("query") query:String) : Call<PlaceResponse.PlaceResponse>
+    fun searchPlaces(@Query("query") query: String): Call<PlaceResponse.PlaceResponse>
 }

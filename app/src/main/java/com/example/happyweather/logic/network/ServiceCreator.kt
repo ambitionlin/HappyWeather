@@ -11,8 +11,10 @@ object ServiceCreator {
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
     //提供外部可见的create()，并接收一个Class类型参数   eg使用：val appService = ServiceCreator.create(AppService::class.java)
-    fun <T> create(serviceClass:Class<T>):T = retrofit.create(serviceClass)
+    fun <T> create(serviceClass: Class<T>): T = retrofit.create(serviceClass)
+
     //泛型实化功能， inline关键字修饰方法，reified关键字修饰泛型      eg使用：val appService = ServiceCreator.create<AppService>()
-    inline fun <reified T> create():T = create(T::class.java)
+    inline fun <reified T> create(): T = create(T::class.java)
 }
